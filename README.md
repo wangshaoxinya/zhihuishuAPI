@@ -4,6 +4,10 @@
 
 > 开源版本只提供刷课功能，如需完整功能请前往 [zhs.shaoxin.top](https://zhs.shaoxin.top) 获取。
 
+# 刷题接口文档详细解析
+
+> 刷题接口文档详细: [https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md](https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md)
+
 ## 功能特性
 
 - 自动登录（账号密码 / 扫码登录）
