@@ -11,7 +11,6 @@
 # 有问题请使用邮件联系(重大问题/更好的方案即可联系)
 
 点击邮箱可直接发信：[delion@shaoxin.top](mailto:delion@shaoxin.top)
-如需复制地址：delion@shaoxin.top
 
 ## 功能特性
 
