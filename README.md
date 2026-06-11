@@ -8,6 +8,11 @@
 
 > 刷题接口文档详细: [https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md](https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md)
 
+# 有问题请使用邮件联系(重大问题/更好的方案即可联系)
+
+点击邮箱可直接发信：[delion@shaoxin.top](mailto:delion@shaoxin.top)
+如需复制地址：delion@shaoxin.top
+
 ## 功能特性
 
 - 自动登录（账号密码 / 扫码登录）
