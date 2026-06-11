@@ -1,4 +1,4 @@
-# X-ZHS - 智慧树学习辅助工具
+# zhihuishuapi - 智慧树学习辅助工具
 
 基于 PySide6 + QWebEngine 构建的桌面应用，用于智慧树在线学习平台的自动化辅助。
 
@@ -60,3 +60,5 @@ python main.py
 ## 免责声明
 
 本项目仅供学习交流使用，请勿用于商业用途。使用本工具产生的一切后果由使用者自行承担。
+
+# x-zhs  #zhihuishuAPI  #zhihuishuapi
