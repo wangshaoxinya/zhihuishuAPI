@@ -1,6 +1,6 @@
-# zhihuishuapi - 学习辅助工具
+# zhihuishuapi - 智慧树学习辅助工具
 
-基于 PySide6 + QWebEngine 构建的桌面应用，用于在线学习平台的自动化辅助。
+基于 PySide6 + QWebEngine 构建的桌面应用，用于智慧树在线学习平台的自动化辅助。
 
 > 开源版本只提供刷课功能，如需完整功能请前往 [zhs.shaoxin.top](https://zhs.shaoxin.top) 获取。
 
