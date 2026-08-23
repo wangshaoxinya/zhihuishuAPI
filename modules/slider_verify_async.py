@@ -41,18 +41,20 @@ async def download_image_async(url):
 def process_background_image(image):
     """处理背景图片"""
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    denoised = cv2.fastNlMeansDenoising(gray, None, 10, 7, 21)
-    _, binary = cv2.threshold(denoised, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    edges = cv2.Canny(binary, 500, 900, apertureSize=3)
+    blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+    edges = cv2.Canny(blurred, 100, 200)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    edges = cv2.dilate(edges, kernel, iterations=1)
     return edges
 
 
 def process_block_image(image):
     """处理滑块图片"""
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    inverted = cv2.bitwise_not(gray)
-    _, binary = cv2.threshold(inverted, 240, 255, cv2.THRESH_BINARY_INV)
-    edges = cv2.Canny(binary, 500, 900, apertureSize=3)
+    blurred = cv2.GaussianBlur(gray, (3, 3), 0)
+    edges = cv2.Canny(blurred, 100, 200)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+    edges = cv2.dilate(edges, kernel, iterations=1)
     return edges
 
 
@@ -250,7 +252,7 @@ class SliderVerifier:
             self._log("JavaScript 执行超时", "warn")
             return None
 
-    async def verify(self, max_attempts: int = 1, offset: int = 10) -> bool:
+    async def verify(self, max_attempts: int = 3, offset: int = 0) -> bool:
         """执行滑块验证"""
         if not self.browser_engine:
             self._log("浏览器引擎未设置", "error")
@@ -267,8 +269,10 @@ class SliderVerifier:
                 await self._move_slider(max_loc[0], offset)
 
                 if await self._check_result():
-                    self._log("滑块验证已成功通过.")
+                    self._log("滑块验证已成功通过!")
                     return True
+                else:
+                    self._log(f"第 {attempt + 1} 次验证未通过", "warn")
 
             except Exception as e:
                 self._log(f"第{attempt+1}次验证失败: {e}", "warn")
@@ -317,9 +321,15 @@ class SliderVerifier:
         (function() {
             var bgImg = document.querySelector('.yidun_bg-img');
             var blockImg = document.querySelector('.yidun_jigsaw');
+            var slider = document.querySelector('.yidun_slider');
+            var track = document.querySelector('.yidun_bgimg') || 
+                        (slider ? slider.parentElement : null);
             return JSON.stringify({
                 bgUrl: bgImg ? bgImg.src : null,
-                blockUrl: blockImg ? blockImg.src : null
+                blockUrl: blockImg ? blockImg.src : null,
+                bgNatWidth: bgImg ? bgImg.naturalWidth : 0,
+                bgClientWidth: bgImg ? bgImg.clientWidth : 0,
+                trackWidth: track ? track.clientWidth : 0
             });
         })();
         """
@@ -337,12 +347,21 @@ class SliderVerifier:
             raise RuntimeError("下载验证码图片失败")
 
         loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(
+        pos = await loop.run_in_executor(
             _executor,
             calculate_slider_position,
             bg_img,
             block_img
         )
+
+        bg_nat_w = result.get('bgNatWidth', bg_img.shape[1])
+        bg_disp_w = result.get('bgClientWidth', result.get('trackWidth', bg_nat_w))
+        if bg_disp_w == 0:
+            bg_disp_w = bg_nat_w
+        scale = bg_disp_w / bg_nat_w if bg_nat_w > 0 else 1.0
+        display_x = pos[0] * scale + 10
+
+        return (display_x, pos[1])
 
     async def _move_slider(self, distance: float, offset: int = 10):
         """移动滑块"""
@@ -351,11 +370,16 @@ class SliderVerifier:
         move_script = f"""
         (() => {{
             const slider = document.querySelector('.yidun_slider');
+            const track = document.querySelector('.yidun_slider--normal') || 
+                          document.querySelector('.yidun_bgimg') ||
+                          slider.parentElement;
             if (!slider) return JSON.stringify({{success: false}});
 
-            const rect = slider.getBoundingClientRect();
-            const startX = rect.left + rect.width / 2;
-            const startY = rect.top + rect.height / 2;
+            const sliderRect = slider.getBoundingClientRect();
+            const trackRect = track ? track.getBoundingClientRect() : null;
+            const startX = sliderRect.left + sliderRect.width / 2;
+            const startY = sliderRect.top + sliderRect.height / 2;
+            const trackWidth = trackRect ? trackRect.width : 280;
             const distance = {total_distance};
 
             function fire(type, x, y) {{
@@ -381,7 +405,7 @@ class SliderVerifier:
                 const progress = i / steps;
                 const ease = 1 - Math.pow(1 - progress, 3);
                 current = distance * ease;
-                const jitter = Math.random() * 1.5;
+                const jitter = Math.random() * 1.2;
 
                 fire('mousemove', startX + current + jitter, startY + (Math.random() - 0.5));
 
@@ -389,7 +413,7 @@ class SliderVerifier:
             }}
 
             moveStep(0);
-            return JSON.stringify({{success: true}});
+            return JSON.stringify({{success: true, distance: distance, trackWidth: trackWidth}});
         }})();
         """
 
