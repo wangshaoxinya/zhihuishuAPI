@@ -819,29 +819,37 @@ class MainWindow(QMainWindow):
 
         login_script = f"""
         (function() {{
-            // 输入账户
-            var usernameInput = document.getElementById('lUsername');
-            if (usernameInput) {{
-                usernameInput.value = '{account}';
-                usernameInput.dispatchEvent(new Event('input', {{ bubbles: true }}));
-                usernameInput.dispatchEvent(new Event('change', {{ bubbles: true }}));
-            }}
+        // 输入手机号或用户名
+        var usernameInput = document.querySelector('input[name="mobile"]');
+        if (usernameInput) {{
+            usernameInput.focus();
+            usernameInput.value = '{account}';
+            usernameInput.dispatchEvent(new Event('input', {{ bubbles: true }}));
+            usernameInput.dispatchEvent(new Event('change', {{ bubbles: true }}));
+        }}
 
-            // 输入密码
-            var passwordInput = document.getElementById('lPassword');
-            if (passwordInput) {{
-                passwordInput.value = '{password}';
-                passwordInput.dispatchEvent(new Event('input', {{ bubbles: true }}));
-                passwordInput.dispatchEvent(new Event('change', {{ bubbles: true }}));
-            }}
+        // 输入密码
+        var passwordInput = document.querySelector('input[type="password"]');
+        if (passwordInput) {{
+            passwordInput.focus();
+            passwordInput.value = '{password}';
+            passwordInput.dispatchEvent(new Event('input', {{ bubbles: true }}));
+            passwordInput.dispatchEvent(new Event('change', {{ bubbles: true }}));
+        }}
 
-            // 点击登录按钮
-            var loginBtn = document.querySelector('.wall-sub-btn');
-            if (loginBtn) {{
-                loginBtn.click();
-            }}
-        }})();
-        """
+        // 勾选同意协议
+        var checkbox = document.querySelector('.privacy-checkbox .el-checkbox__original');
+        if (checkbox && !checkbox.checked) {{
+            checkbox.click();
+        }}
+
+        // 点击登录按钮
+        var loginBtn = document.querySelector('.btn-block__grandient_login');
+        if (loginBtn) {{
+            loginBtn.click();
+        }}
+    }})();
+    """
 
         self.browser.run_javascript(login_script)
 
@@ -863,7 +871,8 @@ class MainWindow(QMainWindow):
             var isLoginPage = url.includes('passport') || url.includes('login') || url.includes('signin');
             
             // 检查是否有登录表单（说明还没登录）
-            var hasLoginForm = document.getElementById('lUsername') !== null || document.querySelector('.login') !== null;
+            var hasLoginForm = document.querySelector('input[name="mobile"]') !== null || document.querySelector('.login') !== null;
+
             
             // 只有不在登录页面且没有登录表单，才认为登录成功
             if (!isLoginPage && !hasLoginForm) {
@@ -1013,7 +1022,7 @@ class MainWindow(QMainWindow):
                     self.Write_Log("滑块验证成功，尝试重新登录...")
                     self.browser.run_javascript("""
                         (function() {
-                            var loginBtn = document.querySelector('.wall-sub-btn');
+                            var loginBtn = document.querySelector('.btn-block__grandient_login');
                             if (loginBtn) loginBtn.click();
                         })();
                     """)
@@ -1885,8 +1894,8 @@ class MainWindow(QMainWindow):
         
         script = """
         (function() {
-            var usernameInput = document.getElementById('lUsername');
-            var passwordInput = document.getElementById('lPassword');
+            var usernameInput = document.querySelector('input[name="mobile"]');
+            var passwordInput = document.querySelector('input[type="password"]');
             
             var usernameValue = usernameInput ? (usernameInput.value || '').trim() : '';
             var passwordValue = passwordInput ? (passwordInput.value || '').trim() : '';
@@ -1967,7 +1976,7 @@ class MainWindow(QMainWindow):
             var url = window.location.href;
             var docReady = document.readyState === 'complete';
             var bodyExists = document.body !== null;
-            var hasLoginForm = document.getElementById('lUsername') !== null || document.querySelector('.login') !== null;
+            var hasLoginForm = document.querySelector('input[name="mobile"]') !== null || document.querySelector('.login') !== null;
             var isLoginUrl = url.includes('passport') || url.includes('login') || url.includes('signin');
             var modal = document.querySelector('.yidun_modal');
             
