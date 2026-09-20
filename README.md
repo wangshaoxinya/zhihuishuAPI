@@ -2,13 +2,9 @@
 
 基于 PySide6 + QWebEngine 构建的桌面应用，用于智慧树在线学习平台的自动化辅助。
 
-> 开源版本只提供刷课功能，如需完整功能请前往 [zhs.shaoxin.top](https://zhs.shaoxin.top) 获取。
+> 开源版本只提供刷课功能，如需完整功能请前往 [https://github.com/wangshaoxinya/zhihuishuAPI/releases](https://github.com/wangshaoxinya/zhihuishuAPI/releases) 获取。
 
 # AI功能不可完全相信，请自行判断
-
-# 刷题接口文档详细解析
-
-> 刷题接口文档详细: [https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md](https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md)
 
 # 有问题请使用邮件联系(重大问题/更好的方案即可联系)
 
