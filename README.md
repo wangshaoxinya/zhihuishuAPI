@@ -4,6 +4,8 @@
 
 > 开源版本只提供刷课功能，如需完整功能请前往 [zhs.shaoxin.top](https://zhs.shaoxin.top) 获取。
 
+### AI功能不可完全相信，请自行判断
+
 # 刷题接口文档详细解析
 
 > 刷题接口文档详细: [https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md](https://github.com/wangshaoxinya/zhihuishuAPI/blob/main/jk.md)
