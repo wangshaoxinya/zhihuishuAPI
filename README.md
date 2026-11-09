@@ -1,4 +1,4 @@
-# X-ZHS（delion智慧树）
+# zhihuishuapi（delion智慧树）
 
 基于 **PySide6 + Qt WebEngine** 的智慧树在线课程学习辅助工具，面向 Windows 桌面端。
 
