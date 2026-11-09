@@ -1,4 +1,4 @@
-# X-ZHS（delion智慧树）
+# zhihuishuapi（delion智慧树）
 
 基于 **PySide6 + Qt WebEngine** 的智慧树在线课程学习辅助工具，面向 Windows 桌面端。
 
@@ -142,44 +142,6 @@ auto_login_enabled = true
 
 ---
 
-## 目录结构
-
-```text
-x-zhs/
-├─ main.py                       # 程序入口：注册 scheme、创建窗口、启动 qasync 事件循环
-├─ build.py                      # cx_Freeze 打包脚本
-├─ config.ini                    # 账号与自动登录配置
-├─ app.manifest                  # Windows 清单：管理员权限、高 DPI
-├─ requirements.txt
-├─ assets/
-│  ├─ delion.ico                 # 应用图标
-│  └─ refresh.svg                # 刷新按钮图标
-├─ components/
-│  ├─ __init__.py
-│  └─ main_window.py             # 主窗口、浏览器封装、登录/刷课/队列的业务编排
-└─ modules/
-    ├─ __init__.py                # 统一导出
-    ├─ config.py                  # 应用级配置（窗口、URL、日志级别等）
-    ├─ ini_config.py              # config.ini 读写
-    ├─ logger.py                  # 控制台 + 文件日志
-    ├─ web.py                     # 内置页面 HTML、自定义 scheme、WebSocket 服务
-    ├─ auth.py                    # 授权长令牌的获取、刷新、存储
-    ├─ auth_http_server.py        # 本地回调 HTTP 服务（127.0.0.1:19960）
-    ├─ cookie_checker.py          # 通过页面 fetch / Cookie 判断智慧树登录态
-    ├─ user.py                    # 获取用户真实姓名、uuid
-    ├─ slider_verify_async.py     # 滑块验证：图像识别 + 轨迹模拟
-    ├─ Access_to_public_courses.py # 课程列表接口（AES 加密请求）
-    ├─ videos.py                  # 章节 / 视频清单与学习状态
-    ├─ Report_progress.py         # 单个视频进度上报（核心上报逻辑）
-    ├─ Line_up.py                 # 批量上报队列
-    ├─ encryption.py              # AES-CBC/PKCS7 加解密工具
-    ├─ uac_manager.py             # Windows 管理员权限检查
-    └─ ws_server.py               # 早期独立 WebSocket 服务（当前未接入）
-```
-
-可选文件：`res/stealth.min.js`。若存在，会在每次页面加载完成后注入，用于降低自动化特征；仓库未附带时自动跳过。
-
----
 
 ## 实现要点
 
