@@ -1,5 +1,8 @@
 # zhihuishuapi（delion智慧树）
 
+- 国内项目访问地址：https://git.ceouu.com:2222/shaoxin/zhihuishuapi
+- 国外项目访问地址：https://github.com/wangshaoxinya/zhihuishuAPI
+
 基于 **PySide6 + Qt WebEngine** 的智慧树在线课程学习辅助工具，面向 Windows 桌面端。
 
 客户端内置浏览器直接加载智慧树学习页面，登录后可读取课程、章节与视频列表，支持单个视频或批量队列上报学习进度；触发安全验证时自动跳转到验证页面，并提供基于 OpenCV 的滑块自动验证。
