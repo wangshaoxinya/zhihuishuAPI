@@ -1,7 +1,7 @@
 # zhihuishuapi（delion智慧树）
 
-- 国内项目访问地址：https://git.ceouu.com:2222/shaoxin/zhihuishuapi
-- 国外项目访问地址：https://github.com/wangshaoxinya/zhihuishuAPI
+- 国内项目访问地址：<https://git.ceouu.com:2222/shaoxin/zhihuishuapi>
+- 国外项目访问地址：<https://github.com/wangshaoxinya/zhihuishuAPI>
 
 基于 **PySide6 + Qt WebEngine** 的智慧树在线课程学习辅助工具，面向 Windows 桌面端。
 
